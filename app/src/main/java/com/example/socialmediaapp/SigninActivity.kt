@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
 
 class SigninActivity : AppCompatActivity() {
 
-    private val TAG = "TAG"
+    private val TAG = "GoogleSignIn"
     private val RC_SIGN_IN: Int = 123
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
@@ -46,6 +46,13 @@ class SigninActivity : AppCompatActivity() {
         btnG_Signin.setOnClickListener {
             signIn()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
     }
 
     private fun signIn() {
@@ -71,7 +78,7 @@ class SigninActivity : AppCompatActivity() {
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately
-            Log.w(TAG, "Google sign in failed", e)
+            Log.w(TAG, "Google sign in failed..code ="+ e.statusCode)
             // ...
         }
     }
