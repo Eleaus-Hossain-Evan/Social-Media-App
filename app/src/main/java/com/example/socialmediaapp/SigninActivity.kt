@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.example.socialmediaapp.daos.UserDao
+import com.example.socialmediaapp.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -99,8 +101,11 @@ class SigninActivity : AppCompatActivity() {
 
     private fun updateUI(firebaseUser: FirebaseUser?) {
         if (firebaseUser != null){
-            val mainActivityIntent = Intent(this, MainActivity::class.java)
-            startActivity(mainActivityIntent)
+            val user = User(firebaseUser.uid, firebaseUser.displayName, firebaseUser.photoUrl.toString())
+            val userDao = UserDao()
+            userDao.addUser(user)
+            val mainactivityintent = Intent(this, MainActivity::class.java)
+            startActivity(mainactivityintent)
             finish()
         }
         else{
