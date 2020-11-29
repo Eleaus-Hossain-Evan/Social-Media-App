@@ -76,7 +76,10 @@ class SigninActivity : AppCompatActivity() {
         try {
             // Google Sign In was successful, authenticate with Firebase
             val account = task.getResult(ApiException::class.java)!!
-            Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+            Log.d(TAG, "firebaseAuthWithGoogle:" + task.result)
+            Log.d(TAG, "firebaseAuthWithGoogle:" + account.idToken)
+            Log.d(TAG, "firebaseAuthWithGoogle:" + account.displayName)
+            Log.d(TAG, "firebaseAuthWithGoogle:" + account.email)
             firebaseAuthWithGoogle(account.idToken!!)
         } catch (e: ApiException) {
             // Google Sign In failed, update UI appropriately
@@ -87,6 +90,7 @@ class SigninActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
+
         btnG_Signin.visibility = View.GONE
         progressBar.visibility = View.VISIBLE
         GlobalScope.launch(Dispatchers.IO) {
