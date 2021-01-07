@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 
 class PostDao {
     val db = FirebaseFirestore.getInstance()
-    val postCollection = db.collection("posts")
+    val postCollections = db.collection("posts")
     val auth = Firebase.auth
 
     fun addPost(text: String){
@@ -23,7 +23,7 @@ class PostDao {
 
             val currentTime = System.currentTimeMillis()
             val post = Post(text, user, currentTime)
-            postCollection.document().set(post)
+            postCollections.document().set(post)
         }
     }
 }

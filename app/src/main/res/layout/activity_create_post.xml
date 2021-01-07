@@ -22,7 +22,8 @@
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="#7CB342"
+        app:boxStrokeColor="@color/purple_700"
+        app:boxStrokeWidth="3dp"
         app:hintTextAppearance="@style/HintText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -33,12 +34,13 @@
             android:id="@+id/etPost"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="start|top"
             android:inputType="textMultiLine" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPost"
-        android:backgroundTint="#43A047"
+        android:backgroundTint="@color/teal_200"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -51,6 +53,8 @@
         android:textStyle="bold"
         app:cornerRadius="16dp"
         app:elevation="100dp"
+        app:strokeColor="@color/teal_700"
+        app:strokeWidth="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
