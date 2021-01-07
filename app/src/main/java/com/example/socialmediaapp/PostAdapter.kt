@@ -12,7 +12,7 @@ import com.example.socialmediaapp.models.Post
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class PostAdapter(options: FirestoreRecyclerOptions<Post>) : FirestoreRecyclerAdapter<Post, PostAdapter.PostViewHolder>(options) {
+class PostAdapter(options: FirestoreRecyclerOptions<Post>, val listener: IPostLiked) : FirestoreRecyclerAdapter<Post, PostAdapter.PostViewHolder>(options) {
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val postTitle: TextView = itemView.findViewById<TextView>(R.id.postTitle)
@@ -24,7 +24,12 @@ class PostAdapter(options: FirestoreRecyclerOptions<Post>) : FirestoreRecyclerAd
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        return PostViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false))
+        val viewHolder =  PostViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_post, parent, false))
+        viewHolder.likeButton.setOnClickListener{
+            listener.onLikedClicked(snapshots.getSnapshot(viewHolder.adapterPosition).id)
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
@@ -34,4 +39,8 @@ class PostAdapter(options: FirestoreRecyclerOptions<Post>) : FirestoreRecyclerAd
         holder.likeCount.text = model.likedBy.size.toString()
         holder.createdAt.text = Utils.getTimeAgo(model.createdAt)
     }
+}
+
+interface IPostLiked{
+    fun onLikedClicked(postID: String)
 }
