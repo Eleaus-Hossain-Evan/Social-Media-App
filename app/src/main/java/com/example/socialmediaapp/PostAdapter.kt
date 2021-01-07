@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.socialmediaapp.models.Post
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class PostAdapter(options: FirestoreRecyclerOptions<Post>, val listener: IPostLiked) : FirestoreRecyclerAdapter<Post, PostAdapter.PostViewHolder>(options) {
 
@@ -38,6 +41,15 @@ class PostAdapter(options: FirestoreRecyclerOptions<Post>, val listener: IPostLi
         Glide.with(holder.userImage.context).load(model.createdBy.imgUrl).circleCrop().into(holder.userImage)
         holder.likeCount.text = model.likedBy.size.toString()
         holder.createdAt.text = Utils.getTimeAgo(model.createdAt)
+
+        val currentUserId = Firebase.auth.currentUser!!.uid
+        val isLiked = model.likedBy.contains(currentUserId)
+
+        if(isLiked){
+            holder.likeButton.setImageResource(R.drawable.ic_liked)
+        }else{
+            holder.likeButton.setImageResource(R.drawable.ic_unliked)
+        }
     }
 }
 
